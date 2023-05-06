@@ -1,5 +1,6 @@
 package sk.kmikt.webovy_portal_na_streamovanie_hudby.user;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import sk.kmikt.webovy_portal_na_streamovanie_hudby.helper.DataSourceConnection;
 
 import javax.naming.NamingException;
@@ -48,6 +49,10 @@ public class UserController {
 
                 return login.equals(email) ? new User(user_id, name, dob, email) : null;
             }
+            else
+            {
+                return null;
+            }
         }
         catch (SQLException e)
         {
@@ -55,5 +60,29 @@ public class UserController {
         }
 
         return null;
+    }
+
+    public User verifyLogin(String login, String password) throws SQLException, NamingException {
+        String sql = "SELECT * FROM users WHERE email = ?";
+
+        try (Connection conn = DataSourceConnection.getConnection())
+        {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String passwordHash = rs.getString("password");
+                return BCrypt.checkpw(password, passwordHash) ? new User(rs.getString("name"), rs.getString("email")) : null;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

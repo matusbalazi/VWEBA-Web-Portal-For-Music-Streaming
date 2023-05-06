@@ -33,8 +33,11 @@ public class UserRegisterServlet extends HttpServlet {
             if ((new UserController()).getUserByEmail(user.getEmail()) == null)
             {
                 if ((new UserController()).insertUser(user)) {
-                    response.sendRedirect("/login.jsp");
+                    response.sendRedirect("/index.jsp");
                 }
+            }
+            else {
+                response.sendRedirect("/login.jsp");
             }
 
         } catch (NumberFormatException var5) {

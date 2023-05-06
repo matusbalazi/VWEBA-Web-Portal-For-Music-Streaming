@@ -18,7 +18,7 @@
 
 <%@include file="navigation.jsp"%>
 
-<div class="container-fluid mt-3">
+<div class="container-fluid mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
             <div class="text-center">
@@ -77,7 +77,6 @@
             age--;
         }
 
-        console.log("Form validated!");
         return age >= min;
     }, "Musíte mať aspoň {0} rokov.");
 

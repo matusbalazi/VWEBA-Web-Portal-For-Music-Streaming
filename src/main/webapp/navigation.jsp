@@ -1,4 +1,5 @@
-<%@ page pageEncoding="UTF-8"%>
+<%@ page import="sk.kmikt.webovy_portal_na_streamovanie_hudby.user.User"%>
+<%@ page pageEncoding="UTF-8" language="java"%>
 <!doctype html>
 <html lang="sk">
   <head>
@@ -25,10 +26,21 @@
               <a class="nav-link" href="#">Hudba</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Prihlásenie</a>
+              <a class="nav-link" href="login.jsp">Prihlásenie</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="register.jsp">Registrácia</a>
+            </li>
+            <li class="nav-item">
+              <%
+                  if (session.getAttribute("name") != null && session.getAttribute("login") != null)
+                  {
+                    %>
+                      <div class="nav-link">Príhlásený používateľ: <%=session.getAttribute("name")%></div>
+                    <%
+                  }
+              %>
+
             </li>
           </ul>
         </div>
