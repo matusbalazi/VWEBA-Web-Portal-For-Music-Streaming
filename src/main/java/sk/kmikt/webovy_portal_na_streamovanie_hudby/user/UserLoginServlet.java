@@ -19,6 +19,7 @@ public class UserLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("email");
         String password = request.getParameter("password");
+        boolean isAdmin = Boolean.parseBoolean(request.getParameter("is_admin"));
         HttpSession session = request.getSession();
 
         try {
@@ -26,6 +27,7 @@ public class UserLoginServlet extends HttpServlet {
             if (user != null) {
                 session.setAttribute("name", user.getName());
                 session.setAttribute("login", user.getEmail());
+                session.setAttribute("is_admin", user.isIs_admin());
                 response.sendRedirect("/index.jsp");
             }
             else {

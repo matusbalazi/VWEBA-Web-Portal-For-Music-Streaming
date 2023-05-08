@@ -72,7 +72,7 @@ public class UserController {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 String passwordHash = rs.getString("password");
-                return BCrypt.checkpw(password, passwordHash) ? new User(rs.getString("name"), rs.getString("email")) : null;
+                return BCrypt.checkpw(password, passwordHash) ? new User(rs.getString("name"), rs.getString("email"), rs.getBoolean("is_admin")) : null;
             }
             else {
                 return null;

@@ -34,9 +34,10 @@ public class User {
         this.password = password;
     }
 
-    public User(String name, String email) {
+    public User(String name, String email, boolean is_admin) {
         this.name = name;
         this.email = email;
+        this.is_admin = is_admin;
     }
 
     public Integer getUser_id() {
