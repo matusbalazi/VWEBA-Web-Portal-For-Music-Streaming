@@ -18,7 +18,7 @@
 
 <%@include file="navigation.jsp"%>
 
-<div class="container-fluid mt-5">
+<div class="container-fluid mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
             <div class="text-center">
@@ -32,7 +32,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
             <form action="/user-register" id="register-form" method="post">
-                <div class="form-group">
+                <div class="form-group mt-1">
                     <label for="name" class="form-label">Meno a priezvisko</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Zadajte meno a priezvisko">
                 </div>
@@ -80,63 +80,65 @@
         return age >= min;
     }, "Musíte mať aspoň {0} rokov.");
 
-    $( "#register-form" ).validate({
-        rules: {
-            name: {
-                required: true,
-                maxlength: 30
+    $(document).ready(function() {
+        $("#register-form").validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 30
+                },
+                dob: {
+                    required: true,
+                    date: true,
+                    minAge: 15
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    maxlength: 40
+                },
+                password: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 30
+                },
+                confirm_password: {
+                    required: true,
+                    equalTo: "#password"
+                },
+                agree: {
+                    required: true
+                }
             },
-            dob: {
-                required: true,
-                date: true,
-                minAge: 15
-            },
-            email: {
-                required: true,
-                email: true,
-                maxlength: 40
-            },
-            password: {
-                required: true,
-                minlength: 8,
-                maxlength: 30
-            },
-            confirm_password: {
-                required: true,
-                equalTo: "#password"
-            },
-            agree: {
-                required: true
+            messages: {
+                name: {
+                    required: "Prosím, zadajte Vaše meno a priezvisko.",
+                    maxlength: "Meno a priezvisko môže mať maximálne 30 znakov."
+                },
+                dob: {
+                    required: "Prosím, zadajte Váš dátum narodenia.",
+                    date: "Prosím, zadajte platný dátum.",
+                    minAge: "Musíte mať minimálne 15 rokov."
+                },
+                email: {
+                    required: "Prosím, zadajte Váš email.",
+                    email: "Prosím, zadajte platný email.",
+                    maxlength: "Email môže mať maximálne 40 znakov."
+                },
+                password: {
+                    required: "Prosím, zadajte Vaše heslo.",
+                    minlength: "Heslo musí mať minimálne 8 znakov.",
+                    maxlength: "Heslo môže mať maximálne 30 znakov."
+                },
+                confirm_password: {
+                    required: "Prosím, zadajte potvrdenie hesla.",
+                    equalTo: "Potvrdenie hesla sa nezhoduje s heslom."
+                },
+                agree: {
+                    required: "Musíte súhlasiť so spracovaním osobných údajov."
+                }
             }
-        },
-        messages: {
-            name: {
-                required: "Prosím, zadajte Vaše meno a priezvisko.",
-                maxlength: "Meno a priezvisko môže mať maximálne 30 znakov."
-            },
-            dob: {
-                required: "Prosím, zadajte Váš dátum narodenia.",
-                date: "Prosím, zadajte platný dátum.",
-                minAge: "Musíte mať minimálne 15 rokov."
-            },
-            email: {
-                required: "Prosím, zadajte Váš email.",
-                email: "Prosím, zadajte platný email.",
-                maxlength: "Email môže mať maximálne 40 znakov."
-            },
-            password: {
-                required: "Prosím, zadajte Vaše heslo.",
-                minlength: "Heslo musí mať minimálne 8 znakov.",
-                maxlength: "Heslo môže mať maximálne 30 znakov."
-            },
-            confirm_password: {
-                required: "Prosím, zadajte potvrdenie hesla.",
-                equalTo: "Potvrdenie hesla sa nezhoduje s heslom."
-            },
-            agree: {
-                required: "Musíte súhlasiť so spracovaním osobných údajov."
-            }
-        }
+        });
     });
 </script>
 </body>

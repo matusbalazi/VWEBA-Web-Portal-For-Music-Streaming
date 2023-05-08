@@ -23,10 +23,7 @@
               <a class="nav-link" href="index.jsp">Domov</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Hudba</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="login.jsp">Prihlásenie</a>
+              <a class="nav-link" href="music.jsp">Hudba</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="register.jsp">Registrácia</a>
@@ -36,7 +33,23 @@
                   if (session.getAttribute("name") != null && session.getAttribute("login") != null)
                   {
                     %>
-                      <div class="nav-link">Príhlásený používateľ: <%=session.getAttribute("name")%></div>
+                      <a class="nav-link" href="/user-logout">Odhlásenie</a>
+                    <%
+                  }
+                  else
+                  {
+                    %>
+                      <a class="nav-link" href="login.jsp">Prihlásenie</a>
+                    <%
+                  }
+              %>
+            </li>
+            <li class="nav-item">
+              <%
+                  if (session.getAttribute("name") != null && session.getAttribute("login") != null)
+                  {
+                    %>
+                      <div class="nav-link nav-item">Príhlásený používateľ: <%=session.getAttribute("name")%></div>
                     <%
                   }
               %>
