@@ -20,14 +20,34 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
+              <%
+                if (session.getAttribute("name") != null &&
+                        session.getAttribute("login") != null &&
+                        session.getAttribute("is_admin") != null &&
+                        (boolean) session.getAttribute("is_admin"))
+                {
+              %>
+              <a class="nav-link" href="/all_users.jsp">Správa používateľov</a>
+              <%
+                }
+              %>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="index.jsp">Domov</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="music.jsp">Hudba</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="register.jsp">Registrácia</a>
-            </li>
+              <%
+                if (session.getAttribute("name") == null && session.getAttribute("login") == null)
+                {
+                  %>
+                    <li class="nav-item">
+                      <a class="nav-link" href="register.jsp">Registrácia</a>
+                    </li>
+                  <%
+                }
+              %>
             <li class="nav-item">
               <%
                   if (session.getAttribute("name") != null && session.getAttribute("login") != null)
