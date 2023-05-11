@@ -17,6 +17,19 @@ public class Music {
         this.url = url;
     }
 
+    public Music(Integer song_id, String title, String artist, String genre, Integer year) {
+        this.song_id = song_id;
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.year = year;
+    }
+
+    public Music(Integer song_id, String url) {
+        this.song_id = song_id;
+        this.url = url;
+    }
+
     public Music(String title, String artist, String genre, Integer year, String url) {
         this.title = title;
         this.artist = artist;

@@ -48,6 +48,11 @@ public class User {
         this.is_admin = is_admin;
     }
 
+    public User(Integer user_id, String password) {
+        this.user_id = user_id;
+        this.password = password;
+    }
+
     public Integer getUser_id() {
         return user_id;
     }

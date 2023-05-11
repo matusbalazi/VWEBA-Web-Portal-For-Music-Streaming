@@ -17,8 +17,8 @@ import java.util.UUID;
         maxRequestSize = 1024 * 1024 * 100      // 100MB
 )
 
-@WebServlet(name = "MusicUploadServlet", value = "/music-upload")
-public class MusicUploadServlet extends HttpServlet {
+@WebServlet(name = "MusicChangeFileServlet", value = "/music-change-file")
+public class MusicChangeFileServlet extends HttpServlet {
 
     private static final String UPLOAD_DIR = "public";
 
@@ -29,13 +29,13 @@ public class MusicUploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String songTitle = request.getParameter("title");
-            String songArtist = request.getParameter("artist");
-            String songGenre = request.getParameter("genre");
-            Integer songYear = Integer.parseInt(request.getParameter("year"));
+        try
+        {
+            int id = Integer.parseInt(request.getParameter("song_id"));
+            String url = request.getParameter("url");
+
             String uploadPath = getServletContext().getRealPath("/") + UPLOAD_DIR;
-            String url = "";
+            String newUrl = "";
 
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists())
@@ -55,23 +55,23 @@ public class MusicUploadServlet extends HttpServlet {
                     String newFileName = UUID.randomUUID().toString() + "." + ext;
                     part.write(uploadPath + File.separator + newFileName);
 
-                    url = "/" + UPLOAD_DIR + "/" + newFileName;
+                    newUrl = "/" + UPLOAD_DIR + "/" + newFileName;
                 }
             }
 
-            if (new MusicController().insertMusic(new Music(songTitle, songArtist, songGenre, songYear, url)))
-            {
-                response.sendRedirect("/index.jsp");
-            }
+            Music music = new Music(id, url);
+            music.setUrl(newUrl);
+
+            new MusicController().changeFile(music);
+
         }
-        catch (NumberFormatException e)
+        catch (SQLException | NamingException e)
         {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        catch (Exception e)
+        finally
         {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendRedirect("/music.jsp");
         }
     }
 }

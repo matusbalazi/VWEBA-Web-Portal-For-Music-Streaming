@@ -30,12 +30,8 @@ public class UserUpdateServlet extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateFormat.parse(dateString);
             String email = request.getParameter("email");
-            String password = request.getParameter("password");
 
-            User user = new User(id, name, date, email, password);
-
-            String encodedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-            user.setPassword(encodedPassword);
+            User user = new User(id, name, date, email);
 
             new UserController().updateUser(user);
 

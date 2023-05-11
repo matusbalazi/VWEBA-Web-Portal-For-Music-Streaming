@@ -37,7 +37,7 @@ public class UserController {
 
     public boolean updateUser(User user) throws SQLException, NamingException
     {
-        String sqlUpdateUser = "UPDATE users SET name = ?, dob = ?, email = ?, password = ? WHERE user_id = ?";
+        String sqlUpdateUser = "UPDATE users SET name = ?, dob = ?, email = ? WHERE user_id = ?";
 
         try (Connection conn = DataSourceConnection.getConnection())
         {
@@ -46,8 +46,28 @@ public class UserController {
             ps.setString(1, user.getName());
             ps.setDate(2, new java.sql.Date(user.getDob().getTime()));
             ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPassword());
-            ps.setInt(5, user.getUser_id());
+            ps.setInt(4, user.getUser_id());
+
+            return ps.executeUpdate() > 0;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean changePassword(User user) throws SQLException, NamingException
+    {
+        String sqlChangePassword = "UPDATE users SET password = ? WHERE user_id = ?";
+
+        try (Connection conn = DataSourceConnection.getConnection())
+        {
+            PreparedStatement ps = conn.prepareStatement(sqlChangePassword);
+
+            ps.setString(1, user.getPassword());
+            ps.setInt(2, user.getUser_id());
 
             return ps.executeUpdate() > 0;
         }

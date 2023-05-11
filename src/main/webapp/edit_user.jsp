@@ -36,6 +36,16 @@
   }
 %>
 
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="text-center">
+        <a class="btn btn-light btn-lg btn-block mt-3 float-lg-end" href="change_password.jsp?user_id=<%=user.getUser_id()%>">Zmeniť heslo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container-fluid mt-4">
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
@@ -49,7 +59,7 @@
 <div class="container mt-3">
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
-      <form action="/user-update?user_id=<%=id%>" id="edit-form" method="post">
+      <form action="/user-update?user_id=<%=id%>" id="edit-user-form" method="post">
         <div class="form-group mt-1">
           <label for="name" class="form-label">Meno a priezvisko</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Zadajte meno a priezvisko" value="<%=user.getName()%>">
@@ -62,17 +72,9 @@
           <label for="email" class="form-label">E-mailová adresa</label>
           <input type="email" class="form-control" id="email" name="email" placeholder="Zadajte email" value="<%=user.getEmail()%>">
         </div>
-        <div class="form-group mt-3">
-          <label for="password" class="form-label">Heslo</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Zadajte heslo">
-        </div>
-        <div class="form-group mt-3">
-          <label for="confirm_password" class="form-label">Potvrdenie hesla</label>
-          <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Potvrďte heslo">
-        </div>
-        <div class="text-center mt-3">
-          <button type="submit" class="btn btn-primary btn-block m-1 mt-3">Zmeniť</button>
-          <a class="btn btn-secondary btn-block m-1 mt-3" href="all_users.jsp">Späť</a>
+        <div class="mt-3">
+          <button type="submit" class="btn btn-primary btn-lg m-1 mt-3">Zmeniť</button>
+          <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="all_users.jsp">Späť</a>
         </div>
       </form>
     </div>
@@ -96,7 +98,7 @@
   }, "Musíte mať aspoň {0} rokov.");
 
   $(document).ready(function() {
-    $("#edit-form").validate({
+    $("#edit-user-form").validate({
       rules: {
         name: {
           required: true,
@@ -146,9 +148,6 @@
           required: "Prosím, zadajte potvrdenie hesla.",
           equalTo: "Potvrdenie hesla sa nezhoduje s heslom."
         },
-        agree: {
-          required: "Musíte súhlasiť so spracovaním osobných údajov."
-        }
       }
     });
   });
