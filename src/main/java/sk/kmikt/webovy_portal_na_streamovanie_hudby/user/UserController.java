@@ -37,7 +37,7 @@ public class UserController {
 
     public boolean updateUser(User user) throws SQLException, NamingException
     {
-        String sqlUpdateUser = "UPDATE users SET name = ?, dob = ?, email = ? WHERE user_id = ?";
+        String sqlUpdateUser = "UPDATE users SET name = ?, dob = ?, email = ?, is_admin = ? WHERE user_id = ?";
 
         try (Connection conn = DataSourceConnection.getConnection())
         {
@@ -46,7 +46,8 @@ public class UserController {
             ps.setString(1, user.getName());
             ps.setDate(2, new java.sql.Date(user.getDob().getTime()));
             ps.setString(3, user.getEmail());
-            ps.setInt(4, user.getUser_id());
+            ps.setBoolean(4, user.isIs_admin());
+            ps.setInt(5, user.getUser_id());
 
             return ps.executeUpdate() > 0;
         }

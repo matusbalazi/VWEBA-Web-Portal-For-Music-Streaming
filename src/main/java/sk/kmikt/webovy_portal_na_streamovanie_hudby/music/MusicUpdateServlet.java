@@ -30,11 +30,12 @@ public class MusicUpdateServlet extends HttpServlet {
             String artist = request.getParameter("artist");
             String genre = request.getParameter("genre");
             Integer year = Integer.parseInt(request.getParameter("year"));
+            boolean hidden = Boolean.parseBoolean(request.getParameter("is_hidden"));
+            boolean downloadable = Boolean.parseBoolean(request.getParameter("is_downloadable"));
 
-            Music music = new Music(id, title, artist, genre, year);
+            Music music = new Music(id, title, artist, genre, year, hidden, downloadable);
 
             new MusicController().updateMusic(music);
-
         }
         catch (SQLException | NamingException e)
         {

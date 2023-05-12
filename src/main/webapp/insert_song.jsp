@@ -61,6 +61,10 @@
                     <label for="year" class="form-label">Rok vydania:</label>
                     <input type="number" class="form-control" id="year" name="year" min="1950" max="2023" required>
                 </div>
+                <div class="form-group form-check mt-3">
+                    <input type="checkbox" class="form-check-input" id="is_downloadable" name="is_downloadable">
+                    <label class="form-check-label" for="is_downloadable">Povoliť stiahnutie skladby ostatnými používateľmi</label>
+                </div>
                 <div class="form-group mt-3">
                     <label for="file" class="form-label">Vyberte zvukový súbor:</label>
                     <input type="file" class="form-control-file" id="file" name="file" accept="audio/mpeg, audio/wav" required><br>
@@ -80,6 +84,12 @@
 %>
 
 <script>
+
+    $(document).ready(function () {
+        $('#is_downloadable').on('change', function () {
+            $('input[name="is_downloadable"]').val($(this).is(':checked') ? 'true' : 'false');
+        });
+    });
 
     $(document).ready(function() {
         $("#music-form").validate({

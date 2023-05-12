@@ -72,6 +72,10 @@
           <label for="email" class="form-label">E-mailová adresa</label>
           <input type="email" class="form-control" id="email" name="email" placeholder="Zadajte email" value="<%=user.getEmail()%>">
         </div>
+        <div class="form-group form-check mt-3">
+          <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin" <%if (user.isIs_admin()) {%>checked<%}%>>
+          <label class="form-check-label" for="is_admin">Je admin</label>
+        </div>
         <div class="mt-3">
           <button type="submit" class="btn btn-primary btn-lg m-1 mt-3">Zmeniť</button>
           <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="all_users.jsp">Späť</a>
@@ -82,6 +86,20 @@
 </div>
 
 <script>
+  $(document).ready(function() {
+    // Get the initial value of the "is_hidden" checkbox
+    var initialValue = $('#is_admin').is(':checked');
+
+    // Set the value of the "is_hidden" input field based on the initial value
+    $('input[name="is_admin"]').val(initialValue ? 'true' : 'false');
+  });
+
+  $(document).ready(function () {
+    $('#is_admin').on('change', function () {
+      $('input[name="is_admin"]').val($(this).is(':checked') ? 'true' : 'false');
+    });
+  });
+
   $.validator.addMethod("minAge", function(value, element, min) {
     var today = new Date();
     var birthDate = new Date(value);
@@ -113,15 +131,6 @@
           required: true,
           email: true,
           maxlength: 40
-        },
-        password: {
-          required: true,
-          minlength: 8,
-          maxlength: 30
-        },
-        confirm_password: {
-          required: true,
-          equalTo: "#password"
         }
       },
       messages: {
@@ -138,16 +147,7 @@
           required: "Prosím, zadajte Váš email.",
           email: "Prosím, zadajte platný email.",
           maxlength: "Email môže mať maximálne 40 znakov."
-        },
-        password: {
-          required: "Prosím, zadajte Vaše heslo.",
-          minlength: "Heslo musí mať minimálne 8 znakov.",
-          maxlength: "Heslo môže mať maximálne 30 znakov."
-        },
-        confirm_password: {
-          required: "Prosím, zadajte potvrdenie hesla.",
-          equalTo: "Potvrdenie hesla sa nezhoduje s heslom."
-        },
+        }
       }
     });
   });

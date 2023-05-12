@@ -160,9 +160,17 @@
           <label for="year" class="form-label">Rok vydania:</label>
           <input type="number" class="form-control" id="year" name="year" min="1950" max="2023" value="<%=song.getYear()%>" required>
         </div>
+        <div class="form-group form-check mt-3">
+          <input type="checkbox" class="form-check-input" id="is_hidden" name="is_hidden" <%if (song.isIs_hidden()) {%>checked<%}%>>
+          <label class="form-check-label" for="is_hidden">Skryť skladbu pred ostatnými používateľmi</label>
+        </div>
+        <div class="form-group form-check mt-3">
+          <input type="checkbox" class="form-check-input" id="is_downloadable" name="is_downloadable" <%if (song.isIs_downloadable()) {%>checked<%}%>>
+          <label class="form-check-label" for="is_downloadable">Povoliť stiahnutie skladby ostatnými používateľmi</label>
+        </div>
         <div class="mt-3">
           <button type="submit" class="btn btn-primary btn-lg m-1 mt-3">Zmeniť</button>
-          <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="all_users.jsp">Späť</a>
+          <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="music.jsp">Späť</a>
         </div>
       </form>
     </div>
@@ -170,6 +178,33 @@
 </div>
 
 <script>
+  $(document).ready(function() {
+    // Get the initial value of the "is_hidden" checkbox
+    var initialValue = $('#is_hidden').is(':checked');
+
+    // Set the value of the "is_hidden" input field based on the initial value
+    $('input[name="is_hidden"]').val(initialValue ? 'true' : 'false');
+  });
+
+  $(document).ready(function() {
+    // Get the initial value of the "is_hidden" checkbox
+    var initialValue = $('#is_downloadable').is(':checked');
+
+    // Set the value of the "is_hidden" input field based on the initial value
+    $('input[name="is_downloadable"]').val(initialValue ? 'true' : 'false');
+  });
+
+  $(document).ready(function () {
+    $('#is_hidden').on('change', function () {
+      $('input[name="is_hidden"]').val($(this).is(':checked') ? 'true' : 'false');
+    });
+  });
+
+  $(document).ready(function () {
+    $('#is_downloadable').on('change', function () {
+      $('input[name="is_downloadable"]').val($(this).is(':checked') ? 'true' : 'false');
+    });
+  });
 
   $(document).ready(function() {
     $("#edit-song-form").validate({

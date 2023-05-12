@@ -34,6 +34,7 @@ public class MusicUploadServlet extends HttpServlet {
             String songArtist = request.getParameter("artist");
             String songGenre = request.getParameter("genre");
             Integer songYear = Integer.parseInt(request.getParameter("year"));
+            boolean songIsDownloadable = Boolean.parseBoolean(request.getParameter("is_downloadable"));
             String uploadPath = getServletContext().getRealPath("/") + UPLOAD_DIR;
             String url = "";
 
@@ -59,9 +60,9 @@ public class MusicUploadServlet extends HttpServlet {
                 }
             }
 
-            if (new MusicController().insertMusic(new Music(songTitle, songArtist, songGenre, songYear, url)))
+            if (new MusicController().insertMusic(new Music(songTitle, songArtist, songGenre, songYear, songIsDownloadable, url)))
             {
-                response.sendRedirect("/index.jsp");
+                response.sendRedirect("/music.jsp");
             }
         }
         catch (NumberFormatException e)

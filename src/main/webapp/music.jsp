@@ -3,6 +3,12 @@
 <%@ page import="sk.kmikt.webovy_portal_na_streamovanie_hudby.music.MusicController"%>
 <%@ page import="java.sql.SQLException"%>
 <%@ page import="javax.naming.NamingException"%>
+<%@ page import="java.net.URLEncoder"%>
+<%@ page import="java.net.URLDecoder"%>
+<%@ page import="java.nio.file.Path"%>
+<%@ page import="sk.kmikt.webovy_portal_na_streamovanie_hudby.music.MusicURLDecoder"%>
+<%@ page import="java.util.Collections"%>
+<%@ page import="java.util.Comparator"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 <!doctype html>
 <html lang="sk">
@@ -30,6 +36,14 @@
                 <div class="container mt-4">
                     <div class="row justify-content-center">
                         <div class="text-center">
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=">Všetky</a>
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=country">Country</a>
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=heavy metal">Heavy metal</a>
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=jazz">Jazz</a>
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=pop">Pop</a>
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=punk">Punk</a>
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=rock">Rock</a>
+                            <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=other">Iné</a>
                             <a class="btn btn-primary btn-lg btn-block m-1 mt-3 float-lg-end" href="insert_song.jsp">Pridať skladbu</a>
                         </div>
                     </div>
@@ -68,6 +82,13 @@
         try
         {
             songs = new MusicController().getAllSongs();
+
+            String selectedGenreFilter = request.getParameter("genre");
+            if (selectedGenreFilter != null && !selectedGenreFilter.isEmpty()) {
+                songs.removeIf(song -> !song.getGenre().equals(selectedGenreFilter));
+            }
+
+            Collections.sort(songs, Comparator.comparing(Music::getTitle));
         }
         catch (SQLException e)
         {
@@ -89,6 +110,7 @@
                 <td class="text-secondary fw-bold">Žáner</td>
                 <td class="text-secondary fw-bold">Rok</td>
                 <td class="text-secondary fw-bold">Skladba</td>
+                <td class="text-secondary fw-bold">Stiahnuť skladbu</td>
                 <%
                     if (session.getAttribute("name") != null &&
                             session.getAttribute("login") != null &&
@@ -106,7 +128,17 @@
                 <%
                     for (Music song: songs)
                     {
-                        %>
+                        if (!song.isIs_hidden() || (session.getAttribute("is_admin") != null && (boolean) session.getAttribute("is_admin")))
+                        {
+                            if (song.isIs_downloadable() && session.getAttribute("name") == null && session.getAttribute("login") == null)
+                            {
+                            %>
+
+                            <%
+                            }
+                            else
+                            {
+                            %>
                             <tr>
                                 <td><%=song.getTitle()%></td>
                                 <td><%=song.getArtist()%></td>
@@ -118,6 +150,22 @@
                                         <source src="<%=song.getUrl()%>" type="audio/wav">
                                     </audio>
                                 </td>
+                                <td>
+                                <%
+                                    if (song.isIs_downloadable())
+                                    {
+                                        %>
+                                            <a class="btn btn-link m-1" onclick="runMusicDownloadServlet(<%=song.getSong_id()%>)" href="<%=song.getUrl()%>" download="<%=song.getTitle() + "." + new MusicURLDecoder().decode(song.getUrl())%>">STIAHNUŤ</a>
+                                        <%
+                                    }
+                                    else
+                                    {
+                                        %>
+                                            Nie je dostupné
+                                        <%
+                                    }
+                                %>
+                                </td>
                                 <%
                                     if (session.getAttribute("name") != null &&
                                             session.getAttribute("login") != null &&
@@ -125,19 +173,35 @@
                                             (boolean) session.getAttribute("is_admin"))
                                     {
                                 %>
-                                    <td>
-                                        <a class="btn btn-warning m-1" href="edit_song.jsp?song_id=<%=song.getSong_id()%>" role="button">EDIT</a>
-                                        <a class="btn btn-danger m-1" href="/music-delete?song_id=<%=song.getSong_id()%>" role="button">DELETE</a>
-                                    </td>
+                                <td>
+                                    <a class="btn btn-warning m-1" href="edit_song.jsp?song_id=<%=song.getSong_id()%>" role="button">EDIT</a>
+                                    <a class="btn btn-danger m-1" href="/music-delete?song_id=<%=song.getSong_id()%>" role="button">DELETE</a>
+                                </td>
                                 <%
                                     }
                                 %>
                             </tr>
-                        <%
+                            <%
+                            }
+                        }
                     }
                 %>
             </tbody>
         </table>
     </div>
 </body>
+
+<script>
+    function runMusicDownloadServlet(song_id) {
+        var url = "/music-download?song_id=" + song_id;
+        fetch(url)
+            .then(function(response) {
+                console.log("Servlet bol úspešne spustený.");
+            })
+            .catch(function(error) {
+                console.log("Vyskytla sa chyba pri spúšťaní Servletu: " + error.message);
+            });
+    }
+</script>
+
 </html>

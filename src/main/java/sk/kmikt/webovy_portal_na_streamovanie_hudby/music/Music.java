@@ -6,7 +6,30 @@ public class Music {
     private String artist;
     private String genre;
     private Integer year;
+    private boolean is_hidden;
+    private boolean is_downloadable;
     private String url;
+
+    public Music(Integer song_id, String title, String artist, String genre, Integer year, boolean is_hidden, boolean is_downloadable, String url) {
+        this.song_id = song_id;
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.year = year;
+        this.is_hidden = is_hidden;
+        this.is_downloadable = is_downloadable;
+        this.url = url;
+    }
+
+    public Music(Integer song_id, String title, String artist, String genre, Integer year, boolean is_hidden, boolean is_downloadable) {
+        this.song_id = song_id;
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.year = year;
+        this.is_hidden = is_hidden;
+        this.is_downloadable = is_downloadable;
+    }
 
     public Music(Integer song_id, String title, String artist, String genre, Integer year, String url) {
         this.song_id = song_id;
@@ -35,6 +58,25 @@ public class Music {
         this.artist = artist;
         this.genre = genre;
         this.year = year;
+        this.url = url;
+    }
+
+    public Music(String title, String artist, String genre, Integer year, boolean is_downloadable, String url) {
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.year = year;
+        this.is_downloadable = is_downloadable;
+        this.url = url;
+    }
+
+    public Music(String title, String artist, String genre, Integer year, boolean is_hidden, boolean is_downloadable, String url) {
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.year = year;
+        this.is_hidden = is_hidden;
+        this.is_downloadable = is_downloadable;
         this.url = url;
     }
 
@@ -76,6 +118,22 @@ public class Music {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public boolean isIs_hidden() {
+        return is_hidden;
+    }
+
+    public void setIs_hidden(boolean is_hidden) {
+        this.is_hidden = is_hidden;
+    }
+
+    public boolean isIs_downloadable() {
+        return is_downloadable;
+    }
+
+    public void setIs_downloadable(boolean is_downloadable) {
+        this.is_downloadable = is_downloadable;
     }
 
     public String getUrl() {

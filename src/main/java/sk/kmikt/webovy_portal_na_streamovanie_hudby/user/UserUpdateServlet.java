@@ -30,8 +30,9 @@ public class UserUpdateServlet extends HttpServlet {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateFormat.parse(dateString);
             String email = request.getParameter("email");
+            boolean admin = Boolean.parseBoolean(request.getParameter("is_admin"));
 
-            User user = new User(id, name, date, email);
+            User user = new User(id, name, date, email, admin);
 
             new UserController().updateUser(user);
 

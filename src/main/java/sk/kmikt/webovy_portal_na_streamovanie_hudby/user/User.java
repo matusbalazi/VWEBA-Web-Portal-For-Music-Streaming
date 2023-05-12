@@ -8,7 +8,6 @@ public class User {
     private Date dob;
     private String email;
     private String password;
-
     private boolean is_admin;
 
     public User(Integer user_id, String name, Date dob, String email, String password, boolean is_admin) {
@@ -26,6 +25,14 @@ public class User {
         this.dob = dob;
         this.email = email;
         this.password = password;
+    }
+
+    public User(Integer user_id, String name, Date dob, String email, boolean is_admin) {
+        this.user_id = user_id;
+        this.name = name;
+        this.dob = dob;
+        this.email = email;
+        this.is_admin = is_admin;
     }
 
     public User(Integer user_id, String name, Date dob, String email) {
