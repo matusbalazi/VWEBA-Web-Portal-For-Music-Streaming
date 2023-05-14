@@ -28,9 +28,9 @@
 
     <%
         if (session.getAttribute("name") != null &&
-                session.getAttribute("login") != null &&
+                session.getAttribute("login") != null /*&&
                 session.getAttribute("is_admin") != null &&
-                (boolean) session.getAttribute("is_admin"))
+                (boolean) session.getAttribute("is_admin")*/)
         {
             %>
                 <div class="container mt-4">
@@ -44,7 +44,17 @@
                             <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=punk">Punk</a>
                             <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=rock">Rock</a>
                             <a class="btn btn-secondary btn-lg btn-block m-1 mt-3 float-lg-start" href="music.jsp?genre=other">Iné</a>
-                            <a class="btn btn-primary btn-lg btn-block m-1 mt-3 float-lg-end" href="insert_song.jsp">Pridať skladbu</a>
+                            <%
+                                if (session.getAttribute("name") != null &&
+                                        session.getAttribute("login") != null &&
+                                        session.getAttribute("is_admin") != null &&
+                                        (boolean) session.getAttribute("is_admin"))
+                                {
+                                    %>
+                                        <a class="btn btn-primary btn-lg btn-block m-1 mt-3 float-lg-end" href="insert_song.jsp">Pridať skladbu</a>
+                                    <%
+                                }
+                            %>
                         </div>
                     </div>
                 </div>
@@ -152,7 +162,7 @@
                                 </td>
                                 <td>
                                 <%
-                                    if (song.isIs_downloadable())
+                                    if (song.isIs_downloadable() || (session.getAttribute("is_admin") != null && (boolean) session.getAttribute("is_admin")))
                                     {
                                         %>
                                             <a class="btn btn-link m-1" onclick="runMusicDownloadServlet(<%=song.getSong_id()%>)" href="<%=song.getUrl()%>" download="<%=song.getTitle() + "." + new MusicURLDecoder().decode(song.getUrl())%>">STIAHNUŤ</a>

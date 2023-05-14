@@ -58,7 +58,7 @@
                     <label class="form-check-label" for="agree">Súhlasím so spracovaním osobných údajov.</label>
                 </div>
                 <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary btn-block mt-3">Zaregistrujte sa!</button>
+                    <button type="submit" class="btn btn-primary btn-lg m-1 mt-3">Zaregistrujte sa!</button>
                 </div>
             </form>
         </div>

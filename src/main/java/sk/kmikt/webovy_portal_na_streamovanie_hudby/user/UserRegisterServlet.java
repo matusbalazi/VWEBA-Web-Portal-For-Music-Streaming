@@ -22,6 +22,7 @@ public class UserRegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String passwordHash = BCrypt.hashpw(request.getParameter("password"), BCrypt.gensalt(12));
 
         try {
@@ -33,6 +34,9 @@ public class UserRegisterServlet extends HttpServlet {
             if ((new UserController()).getUserByEmail(user.getEmail()) == null)
             {
                 if ((new UserController()).insertUser(user)) {
+                    session.setAttribute("name", user.getName());
+                    session.setAttribute("login", user.getEmail());
+                    session.setAttribute("is_admin", user.isIs_admin());
                     response.sendRedirect("/index.jsp");
                 }
             }

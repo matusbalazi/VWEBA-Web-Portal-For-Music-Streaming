@@ -13,7 +13,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="#">Moja webová stránka</a>
+        <a class="navbar-brand" href="index.jsp">Moja webová stránka</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,9 +32,16 @@
                 }
               %>
             </li>
+            <%
+              if (session.getAttribute("name") != null && session.getAttribute("login") != null)
+              {
+            %>
             <li class="nav-item">
-              <a class="nav-link" href="index.jsp">Domov</a>
+              <a class="nav-link" href="my_songs.jsp">Moje skladby</a>
             </li>
+            <%
+              }
+            %>
             <li class="nav-item">
               <a class="nav-link" href="music.jsp">Hudba</a>
             </li>

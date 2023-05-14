@@ -9,6 +9,19 @@ public class Music {
     private boolean is_hidden;
     private boolean is_downloadable;
     private String url;
+    private String uploaded_by;
+
+    public Music(Integer song_id, String title, String artist, String genre, Integer year, boolean is_hidden, boolean is_downloadable, String url, String uploaded_by) {
+        this.song_id = song_id;
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.year = year;
+        this.is_hidden = is_hidden;
+        this.is_downloadable = is_downloadable;
+        this.url = url;
+        this.uploaded_by = uploaded_by;
+    }
 
     public Music(Integer song_id, String title, String artist, String genre, Integer year, boolean is_hidden, boolean is_downloadable, String url) {
         this.song_id = song_id;
@@ -59,6 +72,16 @@ public class Music {
         this.genre = genre;
         this.year = year;
         this.url = url;
+    }
+
+    public Music(String title, String artist, String genre, Integer year, boolean is_downloadable, String url, String uploaded_by) {
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.year = year;
+        this.is_downloadable = is_downloadable;
+        this.url = url;
+        this.uploaded_by = uploaded_by;
     }
 
     public Music(String title, String artist, String genre, Integer year, boolean is_downloadable, String url) {
@@ -142,5 +165,13 @@ public class Music {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getUploaded_by() {
+        return uploaded_by;
+    }
+
+    public void setUploaded_by(String uploaded_by) {
+        this.uploaded_by = uploaded_by;
     }
 }

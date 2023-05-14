@@ -60,7 +60,9 @@ public class MusicUploadServlet extends HttpServlet {
                 }
             }
 
-            if (new MusicController().insertMusic(new Music(songTitle, songArtist, songGenre, songYear, songIsDownloadable, url)))
+            String uploadedBy = request.getParameter("login");
+
+            if (new MusicController().insertMusic(new Music(songTitle, songArtist, songGenre, songYear, songIsDownloadable, url, uploadedBy)))
             {
                 response.sendRedirect("/music.jsp");
             }

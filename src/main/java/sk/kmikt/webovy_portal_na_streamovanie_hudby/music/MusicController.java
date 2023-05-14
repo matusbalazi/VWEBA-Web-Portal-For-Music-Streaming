@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class MusicController {
     public boolean insertMusic(Music music) throws SQLException, NamingException {
-        String sql = "INSERT INTO songs (title, artist, genre, year, is_downloadable, url) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO songs (title, artist, genre, year, is_downloadable, url, uploaded_by) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DataSourceConnection.getConnection())
         {
@@ -25,6 +25,7 @@ public class MusicController {
             ps.setInt(4, music.getYear());
             ps.setBoolean(5, music.isIs_downloadable());
             ps.setString(6, music.getUrl());
+            ps.setString(7, music.getUploaded_by());
 
             return ps.executeUpdate() > 0;
         }
@@ -120,7 +121,8 @@ public class MusicController {
                         rs.getInt("year"),
                         rs.getBoolean("is_hidden"),
                         rs.getBoolean("is_downloadable"),
-                        rs.getString("url")
+                        rs.getString("url"),
+                        rs.getString("uploaded_by")
                 );
 
                 allSongs.add(song);
