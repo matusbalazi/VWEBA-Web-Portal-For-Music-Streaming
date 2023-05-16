@@ -43,7 +43,7 @@ public class MusicUpdateServlet extends HttpServlet {
         }
         finally
         {
-            response.sendRedirect("/music.jsp");
+            response.sendRedirect(request.getParameter("page"));
         }
     }
 }

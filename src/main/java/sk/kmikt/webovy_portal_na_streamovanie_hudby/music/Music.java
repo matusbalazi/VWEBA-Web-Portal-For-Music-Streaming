@@ -66,6 +66,10 @@ public class Music {
         this.url = url;
     }
 
+    public Music(Integer song_id) {
+        this.song_id = song_id;
+    }
+
     public Music(String title, String artist, String genre, Integer year, String url) {
         this.title = title;
         this.artist = artist;

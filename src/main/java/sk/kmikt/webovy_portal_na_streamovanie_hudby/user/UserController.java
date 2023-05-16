@@ -82,15 +82,28 @@ public class UserController {
 
     public boolean deleteUser(int id) throws SQLException, NamingException
     {
+        String sqlDeleteDownloadedMusic = "DELETE FROM downloaded_songs WHERE user_id = ?";
         String sqlDeleteUser = "DELETE FROM users WHERE user_id = ?";
 
         try (Connection conn = DataSourceConnection.getConnection())
         {
-            PreparedStatement ps = conn.prepareStatement(sqlDeleteUser);
+            PreparedStatement ps1 = conn.prepareStatement(sqlDeleteDownloadedMusic);
+            ps1.setInt(1, id);
 
-            ps.setInt(1, id);
+            if (ps1.executeUpdate() > 0)
+            {
+                PreparedStatement ps2 = conn.prepareStatement(sqlDeleteUser);
+                ps2.setInt(1, id);
 
-            return ps.executeUpdate() > 0;
+                return ps2.executeUpdate() > 0;
+            }
+            else
+            {
+                PreparedStatement ps2 = conn.prepareStatement(sqlDeleteUser);
+                ps2.setInt(1, id);
+
+                return ps2.executeUpdate() > 0;
+            }
         }
         catch (Exception e)
         {

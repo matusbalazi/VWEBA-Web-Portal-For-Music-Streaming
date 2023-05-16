@@ -6,6 +6,7 @@
 <%@ page import="java.sql.SQLException"%>
 <%@ page import="javax.naming.NamingException"%>
 <%@ page import="sk.kmikt.webovy_portal_na_streamovanie_hudby.music.MusicURLDecoder"%>
+<%@ page import="sk.kmikt.webovy_portal_na_streamovanie_hudby.user.UserController"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <!doctype html>
 <html lang="sk">
@@ -31,7 +32,7 @@
 <div class="container mt-4">
   <div class="row justify-content-center">
     <div class="text-center">
-      <a class="btn btn-primary btn-lg btn-block m-1 mt-3 float-lg-end" href="insert_song.jsp">Pridať skladbu</a>
+      <a class="btn btn-primary btn-lg btn-block m-1 mt-3 float-lg-end" href="insert_song.jsp?page=2">Pridať skladbu</a>
     </div>
   </div>
 </div>
@@ -65,22 +66,25 @@
 </style>
 
 <%
+  int currentUserId;
   ArrayList<Music> songs = new ArrayList<>();
+
+  if (session.getAttribute("name") != null &&
+          session.getAttribute("login") != null)
+  {
+
   try
   {
     songs = new MusicController().getAllSongs();
 
     String currentUser = (String) session.getAttribute("login");
+    currentUserId = new UserController().getUserByEmail(currentUser).getUser_id();
 
     songs.removeIf(song -> !song.getUploaded_by().equals(currentUser));
 
     Collections.sort(songs, Comparator.comparing(Music::getTitle));
   }
-  catch (SQLException e)
-  {
-    throw new RuntimeException(e);
-  }
-  catch (NamingException e)
+  catch (SQLException | NamingException e)
   {
     throw new RuntimeException(e);
   }
@@ -129,7 +133,7 @@
           if (song.isIs_downloadable())
           {
         %>
-        <a class="btn btn-link m-1" onclick="runMusicDownloadServlet(<%=song.getSong_id()%>)" href="<%=song.getUrl()%>" download="<%=song.getTitle() + "." + new MusicURLDecoder().decode(song.getUrl())%>">STIAHNUŤ</a>
+        <a class="btn btn-link m-1" onclick="runMusicDownloadServlet(<%=currentUserId%>, <%=song.getSong_id()%>)" href="<%=song.getUrl()%>" download="<%=song.getTitle() + "." + new MusicURLDecoder().decode(song.getUrl())%>">STIAHNUŤ</a>
         <%
         }
         else
@@ -146,8 +150,8 @@
         {
       %>
       <td>
-        <a class="btn btn-warning m-1" href="edit_song.jsp?song_id=<%=song.getSong_id()%>" role="button">EDIT</a>
-        <a class="btn btn-danger m-1" href="/music-delete?song_id=<%=song.getSong_id()%>" role="button">DELETE</a>
+        <a class="btn btn-warning m-1" href="edit_song.jsp?song_id=<%=song.getSong_id()%>&page=2" role="button">EDIT</a>
+        <a class="btn btn-danger m-1" href="/music-delete?song_id=<%=song.getSong_id()%>&page=2" role="button">DELETE</a>
       </td>
       <%
         }
@@ -159,11 +163,14 @@
     </tbody>
   </table>
 </div>
+<%
+  }
+%>
 </body>
 
 <script>
-  function runMusicDownloadServlet(song_id) {
-    var url = "/music-download?song_id=" + song_id;
+  function runMusicDownloadServlet(user_id, song_id) {
+    var url = "/music-download?user_id=" + user_id + "&song_id=" + song_id;
     fetch(url)
             .then(function(response) {
               console.log("Servlet bol úspešne spustený.");

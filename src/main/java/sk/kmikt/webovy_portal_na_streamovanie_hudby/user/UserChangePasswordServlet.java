@@ -25,9 +25,9 @@ public class UserChangePasswordServlet extends HttpServlet {
             String current_password = request.getParameter("current_password");
             String new_password = request.getParameter("new_password");
 
-            System.out.println("Current password: " + current_password);
-            System.out.println("New password " + new_password);
-            System.out.println("Hashed password: " + new UserController().getUserById(id).getPassword());
+            // System.out.println("Current password: " + current_password);
+            // System.out.println("New password " + new_password);
+            // System.out.println("Hashed password: " + new UserController().getUserById(id).getPassword());
 
             if (BCrypt.checkpw(current_password, new UserController().getUserById(id).getPassword()))
             {

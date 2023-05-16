@@ -22,6 +22,17 @@
 <%
   Music song = null;
   int id = Integer.parseInt(request.getParameter("song_id"));
+  int pageID = Integer.parseInt(request.getParameter("page"));
+  String returnPage;
+
+  if (pageID == 1)
+  {
+    returnPage = "music.jsp";
+  }
+  else
+  {
+    returnPage = "my_songs.jsp";
+  }
 
   try
   {
@@ -37,7 +48,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
       <div class="text-center">
-        <a class="btn btn-light btn-lg btn-block mt-3 float-lg-end" href="change_file.jsp?song_id=<%=song.getSong_id()%>">Zmeniť zvukový súbor</a>
+        <a class="btn btn-light btn-lg btn-block mt-3 float-lg-end" href="change_file.jsp?song_id=<%=song.getSong_id()%>&page=<%=pageID%>">Zmeniť zvukový súbor</a>
       </div>
     </div>
   </div>
@@ -55,7 +66,7 @@
 <div class="container mt-3">
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
-      <form action="/music-update?song_id=<%=id%>" id="edit-song-form" method="post">
+      <form action="/music-update?song_id=<%=id%>&page=<%=returnPage%>" id="edit-song-form" method="post">
         <div class="form-group mt-1">
           <label for="title" class="form-label">Názov:</label>
           <input type="text" class="form-control" id="title" name="title" value="<%=song.getTitle()%>" required>
@@ -170,7 +181,7 @@
         </div>
         <div class="mt-3">
           <button type="submit" class="btn btn-primary btn-lg m-1 mt-3">Zmeniť</button>
-          <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="music.jsp">Späť</a>
+          <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href=<%=returnPage%>>Späť</a>
         </div>
       </form>
     </div>

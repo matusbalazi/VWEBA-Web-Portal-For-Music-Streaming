@@ -42,6 +42,10 @@ public class User {
         this.email = email;
     }
 
+    public User(Integer user_id) {
+        this.user_id = user_id;
+    }
+
     public User(String name, Date dob, String email, String password) {
         this.name = name;
         this.dob = dob;

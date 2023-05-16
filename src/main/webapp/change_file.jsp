@@ -22,6 +22,18 @@
 <%
   Music song = null;
   int id = Integer.parseInt(request.getParameter("song_id"));
+  int pageID = Integer.parseInt(request.getParameter("page"));
+
+  String returnPage;
+
+  if (pageID == 1)
+  {
+    returnPage = "music.jsp";
+  }
+  else
+  {
+    returnPage = "my_songs.jsp";
+  }
 
   try
   {
@@ -46,7 +58,7 @@
 <div class="container mt-3">
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8">
-      <form action="/music-change-file?song_id=<%=id%>" id="change-file-form" method="post" enctype="multipart/form-data">
+      <form action="/music-change-file?song_id=<%=id%>&page=<%=returnPage%>" id="change-file-form" method="post" enctype="multipart/form-data">
         <div class="form-group mt-3">
           <label for="file" class="form-label">Vyberte zvukový súbor:</label>
           <input type="file" class="form-control-file" id="file" name="file" accept="audio/mpeg, audio/wav" required><br>
@@ -54,7 +66,7 @@
         </div>
         <div class="mt-3">
           <button type="submit" class="btn btn-primary btn-lg m-1 mt-3">Zmeniť</button>
-          <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="edit_song.jsp?song_id=<%=song.getSong_id()%>">Späť</a>
+          <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="edit_song.jsp?song_id=<%=song.getSong_id()%>&page=<%=pageID%>">Späť</a>
         </div>
       </form>
     </div>

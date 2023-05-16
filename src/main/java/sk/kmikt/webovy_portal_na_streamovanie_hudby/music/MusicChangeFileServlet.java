@@ -71,7 +71,7 @@ public class MusicChangeFileServlet extends HttpServlet {
         }
         finally
         {
-            response.sendRedirect("/music.jsp");
+            response.sendRedirect(request.getParameter("page"));
         }
     }
 }

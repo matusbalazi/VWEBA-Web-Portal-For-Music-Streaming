@@ -16,6 +16,20 @@
 <%@include file="navigation.jsp"%>
 
 <%
+    int pageID = Integer.parseInt(request.getParameter("page"));
+    String returnPage;
+
+    if (pageID == 1)
+    {
+        returnPage = "music.jsp";
+    }
+    else
+    {
+        returnPage = "my_songs.jsp";
+    }
+%>
+
+<%
     if (session.getAttribute("name") != null &&
             session.getAttribute("login") != null /*&&
             session.getAttribute("is_admin") != null &&
@@ -35,7 +49,7 @@
 <div class="container mt-3">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
-            <form action="/music-upload?login=<%=(String) session.getAttribute("login")%>" id="music-form" method="post" enctype="multipart/form-data">
+            <form action="/music-upload?login=<%=(String) session.getAttribute("login")%>&page=<%=returnPage%>" id="music-form" method="post" enctype="multipart/form-data">
                 <div class="form-group mt-1">
                     <label for="title" class="form-label">Názov:</label>
                     <input type="text" class="form-control" id="title" name="title" required>
@@ -72,7 +86,7 @@
                 </div>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary btn-lg m-1 mt-3">Nahrať</button>
-                    <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href="music.jsp">Späť</a>
+                    <a class="btn btn-link btn-lg m-1 mt-3 float-lg-end" href=<%=returnPage%>>Späť</a>
                 </div>
             </form>
         </div>

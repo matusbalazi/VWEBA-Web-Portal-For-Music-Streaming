@@ -9,6 +9,7 @@
 <%@ page import="sk.kmikt.webovy_portal_na_streamovanie_hudby.music.MusicURLDecoder"%>
 <%@ page import="java.util.Collections"%>
 <%@ page import="java.util.Comparator"%>
+<%@ page import="sk.kmikt.webovy_portal_na_streamovanie_hudby.user.UserController"%>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 <!doctype html>
 <html lang="sk">
@@ -51,7 +52,7 @@
                                         (boolean) session.getAttribute("is_admin"))
                                 {
                                     %>
-                                        <a class="btn btn-primary btn-lg btn-block m-1 mt-3 float-lg-end" href="insert_song.jsp">Pridať skladbu</a>
+                                        <a class="btn btn-primary btn-lg btn-block m-1 mt-3 float-lg-end" href="insert_song.jsp?page=1">Pridať skladbu</a>
                                     <%
                                 }
                             %>
@@ -88,10 +89,19 @@
     </style>
 
     <%
+        int currentUserId = 0;
         ArrayList<Music> songs = new ArrayList<>();
+
         try
         {
             songs = new MusicController().getAllSongs();
+
+            if (session.getAttribute("name") != null &&
+                    session.getAttribute("login") != null)
+            {
+                String currentUser = (String) session.getAttribute("login");
+                currentUserId = new UserController().getUserByEmail(currentUser).getUser_id();
+            }
 
             String selectedGenreFilter = request.getParameter("genre");
             if (selectedGenreFilter != null && !selectedGenreFilter.isEmpty()) {
@@ -100,11 +110,7 @@
 
             Collections.sort(songs, Comparator.comparing(Music::getTitle));
         }
-        catch (SQLException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (NamingException e)
+        catch (SQLException | NamingException e)
         {
             throw new RuntimeException(e);
         }
@@ -165,7 +171,7 @@
                                     if (song.isIs_downloadable() || (session.getAttribute("is_admin") != null && (boolean) session.getAttribute("is_admin")))
                                     {
                                         %>
-                                            <a class="btn btn-link m-1" onclick="runMusicDownloadServlet(<%=song.getSong_id()%>)" href="<%=song.getUrl()%>" download="<%=song.getTitle() + "." + new MusicURLDecoder().decode(song.getUrl())%>">STIAHNUŤ</a>
+                                            <a class="btn btn-link m-1" onclick="runMusicDownloadServlet(<%=currentUserId%>, <%=song.getSong_id()%>)" href="<%=song.getUrl()%>" download="<%=song.getTitle() + "." + new MusicURLDecoder().decode(song.getUrl())%>">STIAHNUŤ</a>
                                         <%
                                     }
                                     else
@@ -184,8 +190,8 @@
                                     {
                                 %>
                                 <td>
-                                    <a class="btn btn-warning m-1" href="edit_song.jsp?song_id=<%=song.getSong_id()%>" role="button">EDIT</a>
-                                    <a class="btn btn-danger m-1" href="/music-delete?song_id=<%=song.getSong_id()%>" role="button">DELETE</a>
+                                    <a class="btn btn-warning m-1" href="edit_song.jsp?song_id=<%=song.getSong_id()%>&page=1" role="button">EDIT</a>
+                                    <a class="btn btn-danger m-1" href="/music-delete?song_id=<%=song.getSong_id()%>&page=1" role="button">DELETE</a>
                                 </td>
                                 <%
                                     }
@@ -202,8 +208,8 @@
 </body>
 
 <script>
-    function runMusicDownloadServlet(song_id) {
-        var url = "/music-download?song_id=" + song_id;
+    function runMusicDownloadServlet(user_id, song_id) {
+        var url = "/music-download?user_id=" + user_id + "&song_id=" + song_id;
         fetch(url)
             .then(function(response) {
                 console.log("Servlet bol úspešne spustený.");

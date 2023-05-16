@@ -19,6 +19,17 @@ public class MusicDeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("song_id"));
+        int pageID = Integer.parseInt(request.getParameter("page"));
+        String returnPage = "";
+
+        if (pageID == 1)
+        {
+            returnPage = "music.jsp";
+        }
+        else
+        {
+            returnPage = "my_songs.jsp";
+        }
 
         try
         {
@@ -29,7 +40,7 @@ public class MusicDeleteServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         finally {
-            response.sendRedirect("/music.jsp");
+            response.sendRedirect(returnPage);
         }
     }
 }
