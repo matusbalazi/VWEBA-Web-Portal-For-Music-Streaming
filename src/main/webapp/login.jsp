@@ -13,6 +13,21 @@
     >
     <title>Login Page</title>
     <%@include file="header.jsp"%>
+    <style>
+        .toast {
+            background: rgba(236, 236, 236, 1);
+            padding: 16px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 20px;
+            color: rgba(33, 37, 41, 1);
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 300px;
+        }
+    </style>
 </head>
 <body>
 
@@ -47,6 +62,43 @@
         </div>
     </div>
 </div>
+
+<%
+    String successLogin = request.getParameter("success_login");
+    if (successLogin != null && !successLogin.isEmpty()) {
+        boolean isSuccess = Boolean.parseBoolean(successLogin);
+        String message = isSuccess ? "Prihlásenie bolo úspešné!" : "Prihlásenie bolo neúspešné!";
+%>
+<div class="toast" id="toast">
+    <div class="toast-body">
+        <%= message %>
+    </div>
+</div>
+<script>
+    showToast("<%= message %>", <%= isSuccess %>);
+</script>
+<%
+    }
+%>
+
+<%
+    String successRegister = request.getParameter("success_register");
+    if (successRegister != null && !successRegister.isEmpty()) {
+        boolean isSuccess = Boolean.parseBoolean(successRegister);
+        String message = isSuccess ? "Registrácia bola úspešná!" : "Registrácia bola neúspešná!";
+%>
+<div class="toast" id="toast">
+    <div class="toast-body">
+        <%= message %>
+    </div>
+</div>
+<script>
+    showToast("<%= message %>", <%= isSuccess %>);
+</script>
+<%
+    }
+%>
+
 <script>
 
     $(document).ready(function() {

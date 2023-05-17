@@ -28,10 +28,10 @@ public class UserLoginServlet extends HttpServlet {
                 session.setAttribute("name", user.getName());
                 session.setAttribute("login", user.getEmail());
                 session.setAttribute("is_admin", user.isIs_admin());
-                response.sendRedirect("/index.jsp");
+                response.sendRedirect("/index.jsp?success_login=true");
             }
             else {
-                response.sendRedirect("/login.jsp");
+                response.sendRedirect("/login.jsp?success_login=false");
             }
         } catch (NamingException | SQLException var7) {
             response.sendRedirect("/login.jsp");

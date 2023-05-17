@@ -37,11 +37,11 @@ public class UserRegisterServlet extends HttpServlet {
                     session.setAttribute("name", user.getName());
                     session.setAttribute("login", user.getEmail());
                     session.setAttribute("is_admin", user.isIs_admin());
-                    response.sendRedirect("/index.jsp");
+                    response.sendRedirect("/index.jsp?success_register=true");
                 }
             }
             else {
-                response.sendRedirect("/login.jsp");
+                response.sendRedirect("/login.jsp?success_register=false");
             }
 
         } catch (NumberFormatException var5) {
